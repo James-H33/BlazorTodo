@@ -1,0 +1,44 @@
+.todo-container {
+    width: 450px;
+    margin: 0 auto;
+}
+
+.todo-input-wrapper {
+    box-shadow: 0px 3px 5px lightgrey;
+}
+
+.todo-input {
+    width: 100%;
+    border: none;
+    padding: 10px;
+    outline: none;
+}
+
+.todo-list {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-row-gap: 0.5;
+}
+
+.todo-display {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    box-shadow: 0px 3px 5px lightgrey;
+    padding: 10px;
+}
+
+.todo-check {
+    padding: 0 10px;
+}
+
+.todo-text {
+    padding-left: 10px;
+}
+
+.todo-remove {
+    color: red;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0 10px;
+}

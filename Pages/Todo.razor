@@ -1,0 +1,77 @@
+@page "/todo"
+@using Models
+@using Services
+@inject ITodoService TodoService
+
+<link href="css/todo.css" rel="stylesheet" />
+
+<div class="todo-container">
+    <h1>Todo App</h1>
+    <div class="todo-input-wrapper">
+        <input 
+            class="todo-input"
+            bind="@todoInput"
+            onkeyup="@(e => UserInputEvent(e))" 
+            type="text" 
+            placeholder="What needs to be done?"
+        />
+    </div>
+    <div class="todo-list">
+        @{
+            var i = 0;
+        }
+        @while (i < Todos.Count)
+        {
+            var todo = Todos[i];
+            var currentIndex = i;
+
+            <div class="todo-display">
+                <div class="todo-check">
+                    <input type="checkbox" />
+                </div>
+                <div class="todo-text">@todo.Text</div>
+                <div class="todo-remove" onclick="@(() => RemoveTodo(currentIndex))">
+                    &times;
+                </div>
+            </div>
+            i++;
+        }
+    </div>
+</div>
+
+@functions {
+    public List<TodoModel> Todos = new List<TodoModel>();
+    public string todoInput { get; set; }
+
+    protected override void OnInit() 
+    {
+        Todos = TodoService.GetAll();
+    }
+
+    public void UserInputEvent(UIKeyboardEventArgs args) 
+    {
+        if (args.Key == "Enter")
+        {
+            AddTodo();
+        }
+    }
+
+    public void AddTodo() 
+    {
+        if (!String.IsNullOrWhiteSpace(todoInput))
+        {
+            var todo = new TodoModel();
+            todo.Text = todoInput;
+
+            Todos.Add(todo);
+            TodoService.Update(Todos);
+            todoInput = "";
+        }
+    }
+
+    public void RemoveTodo(int index)
+    {
+        Todos.RemoveAt(index);
+        TodoService.Update(Todos);
+    }
+}
